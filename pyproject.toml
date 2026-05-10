@@ -1,0 +1,23 @@
+[project]
+name = "napcat-msg-store"
+version = "0.1.0"
+description = "持久化存储 NapCat OneBot 消息到 SQLite，支持 WebSocket 实时接收与 HTTP API 查询"
+requires-python = ">=3.11"
+dependencies = [
+    "websockets>=13.0",
+    "aiohttp>=3.9",
+    "aiosqlite>=0.20",
+]
+
+[project.scripts]
+napcat-msg-store = "napcat_msg_store.main:run"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/napcat_msg_store"]
