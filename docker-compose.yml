@@ -30,7 +30,8 @@ services:
 
   msg-store:
     build:
-      context: ./napcat-msg-store
+      context: .
+      network: host
     container_name: napcat-msg-store
     restart: unless-stopped
     network_mode: host

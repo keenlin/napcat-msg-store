@@ -1,15 +1,3 @@
-# Multi-stage build for napcat-msg-store
-FROM python:3.13-slim AS builder
-
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-WORKDIR /app
-COPY pyproject.toml uv.lock ./
-COPY src/ ./src/
-
-RUN uv sync --no-dev --no-editable
-
-# ── Runtime stage ──
 FROM python:3.13-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -17,10 +5,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /app/.venv /app/.venv
-COPY --from=builder /app/src /app/src
+COPY pyproject.toml ./
+COPY src/ ./src/
 
-ENV PATH="/app/.venv/bin:$PATH"
+RUN pip install --no-cache-dir . && rm -rf src/
+
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8788
