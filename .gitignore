@@ -7,6 +7,7 @@ dist/
 
 # Docker
 msg_data/
+.env
 
 # IDE
 .vscode/
